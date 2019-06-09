@@ -31,5 +31,5 @@ def run(dry_run, api_key):
     DRY_RUN = os.getenv("DRY_RUN", dry_run)
 
     dropbox_client = dropbox.Dropbox(API_KEY)
-    uploads = dropbox_client.files_list_folder(path=settings.UPLOADS_FOLDER)
-    tidy.tidy(dropbox_client, uploads, DRY_RUN)
+    list_folder_result = dropbox_client.files_list_folder(path=settings.UPLOADS_FOLDER)
+    tidy.tidy(dropbox_client, list_folder_result, DRY_RUN)
