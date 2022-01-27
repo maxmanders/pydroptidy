@@ -40,4 +40,7 @@ def process(dropbox_client, list_folder_result, dry_run):
         LOG.info("Moving '{}' to '{}'".format(entry.path_display, new_path))
 
         if not dry_run:
-            dropbox_client.files_move_v2(entry.path_display, new_path)
+            try:
+                dropbox_client.files_move_v2(entry.path_display, new_path)
+            except dropbox.exceptions.ApiError:
+                LOG.warning("Unable to move '{} to '{}', skipping".format(entry.path_display, new_path))
