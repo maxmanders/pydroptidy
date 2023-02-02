@@ -29,7 +29,7 @@ def run(dry_run):
     if APP_KEY is None or APP_SECRET is None or REFRESH_TOKEN is None:
         sys.exit("Set the Dropbox APP_KEY, APP_SECRET, REFRESH_TOKEN in the environment with DROPBOX_<VAR>")
 
-    DRY_RUN = os.getenv("DRY_RUN", dry_run)
+    DRY_RUN = os.getenv("DRY_RUN", 'False').lower() in ('true', '1', 't')
 
     dropbox_client = dropbox.Dropbox(
         app_key=APP_KEY,
