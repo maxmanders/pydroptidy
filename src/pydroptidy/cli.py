@@ -18,18 +18,24 @@ LOG = logging.getLogger(__name__)
     default=False,
     help="whether or not to perform API actions",
 )
-@click.option("--api-key", help="Dropbox API Key")
-def run(dry_run, api_key):
+def run(dry_run):
     """
     Run via shell command line
     """
 
-    API_KEY = os.getenv("DROPBOX_API_KEY", api_key)
-    if API_KEY is None:
-        sys.exit("Set the Dropbox API Key in the environment with DROPBOX_API_KEY, or use --api-key")
+    APP_KEY = os.getenv("DROPBOX_APP_KEY", None)
+    APP_SECRET = os.getenv("DROPBOX_APP_SECRET", None)
+    REFRESH_TOKEN = os.getenv("DROPBOX_REFRESH_TOKEN", None)
+    if APP_KEY is None or APP_SECRET is None or REFRESH_TOKEN is None:
+        sys.exit("Set the Dropbox APP_KEY, APP_SECRET, REFRESH_TOKEN in the environment with DROPBOX_<VAR>")
 
     DRY_RUN = os.getenv("DRY_RUN", dry_run)
 
-    dropbox_client = dropbox.Dropbox(API_KEY)
+    dropbox_client = dropbox.Dropbox(
+        app_key=APP_KEY,
+        app_secret=APP_SECRET,
+        oauth2_refresh_token=REFRESH_TOKEN,
+    )
+    dropbox_client.users_get_current_account()
     list_folder_result = dropbox_client.files_list_folder(path=settings.UPLOADS_FOLDER)
     tidy.tidy(dropbox_client, list_folder_result, DRY_RUN)
