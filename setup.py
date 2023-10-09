@@ -3,8 +3,8 @@
 import sys
 from setuptools import find_packages, setup
 
-if sys.version_info < (3, 9, 0):
-    raise Exception("This project is incompatible with Python < 3.9.")
+if sys.version_info < (3, 11, 0):
+    raise Exception("This project is incompatible with Python < 3.11.")
 
 setup(
     name="pydroptidy",
@@ -24,7 +24,7 @@ setup(
      ''',
     classifiers=[
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.11",
     ]
 )
 
